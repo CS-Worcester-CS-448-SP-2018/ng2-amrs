@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OfflineStorageService } from './offline-storage.service';
-import PouchDB from 'pouchdb';
+import { PatientResourceService } from '../openmrs-api/patient-resource.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-offline-storage',
@@ -9,16 +10,50 @@ import PouchDB from 'pouchdb';
 })
 export class OfflineStorageComponent implements OnInit {
 
-  constructor(private _offlineStorageService: OfflineStorageService) {
+  public patients: any = [];
+
+  constructor(
+    private _offlineStorageService: OfflineStorageService,
+    private _patientResourceService: PatientResourceService) {
 
   }
 
-  public execute() {
-    this._offlineStorageService.storeData();
+  public fetchPatients() {
+    this._patientResourceService.searchPatient('test')
+      .subscribe((patients) => {
+        this.processPatients(patients);
+      }, (error) => {
+        console.error('ERROR: storeData() failed');
+      });
   }
 
+  public processPatients(patients) {
+    // iterate through the patient list array and save each
+    let count: number = 0;
+    _.each(patients, (patient) => {
+      count++;
+      let patientRecord = {
+        '_id': count.toString(),
+        'patient': patient
+      };
+      this.savePatient(patientRecord);
+    });
+
+  }
+
+  public savePatient(patientObj: any) {
+    console.log('Saving patient ...', patientObj);
+
+    this._offlineStorageService.storePatient(patientObj)
+      .then((result) => {
+        console.log('Patient Saved Successfully', patientObj);
+      })
+      .catch((error) => {
+        console.error('ERROR: Error saving Patient', patientObj);
+      });
+  }
   public ngOnInit() {
-    this.execute();
+    this.fetchPatients();
   }
 
 }
