@@ -52,8 +52,24 @@ export class OfflineStorageComponent implements OnInit {
         console.error('ERROR: Error saving Patient', patientObj);
       });
   }
+
+  /*public temp() {
+    this._patientResourceService.getPatientByUuid('5d386b7a-1359-11df-a1f1-0026b9348838')
+      .subscribe((patient) => {
+        console.log('Patient', patient);
+        let data = {
+          '_id': 'patient data',
+          'output': patient
+        };
+        console.log('Data', data);
+        this._offlineStorageService.db.put(data);
+      }, (error) => {
+        console.error('ERROR: storeData() failed');
+      });
+  }*/
   public ngOnInit() {
     this.fetchPatients();
+    // this.temp();
   }
 
 }

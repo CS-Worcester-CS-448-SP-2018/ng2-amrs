@@ -9,6 +9,7 @@ import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-a
 import { EncounterTypeFilter } from './encounter-list.component.filterByEncounterType.pipe';
 
 import * as _ from 'lodash';
+import { OfflineStorageService } from '../../../offline-storage/offline-storage.service';
 
 @Component({
   selector: 'app-patient-encounters',
@@ -36,7 +37,8 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
   constructor(private patientEncounterService: PatientEncounterService,
               private patientService: PatientService,
               private appFeatureAnalytics: AppFeatureAnalytics,
-              private router: Router, private route: ActivatedRoute) { }
+              private router: Router, private route: ActivatedRoute,
+              private _offlineStorageService: OfflineStorageService) { }
   public ngOnInit() {
     this.getPatient();
     // load cached result
@@ -76,22 +78,22 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
         });
   }
   public loadEncounterTypes(encounters) {
-      if (encounters.length > 0) {
-            encounters.forEach((encounter) => {
-               this.encounterTypes.push(encounter.encounterType.display);
-            });
+    if (encounters.length > 0) {
+      encounters.forEach((encounter) => {
+        this.encounterTypes.push(encounter.encounterType.display);
+      });
 
-            this.sortEncounterTpes();
-      }
+      this.sortEncounterTpes();
+    }
 
   }
   public sortEncounterTpes() {
 
-       let newUniqueEncounterTypes = _.uniq(this.encounterTypes);
+    let newUniqueEncounterTypes = _.uniq(this.encounterTypes);
 
-       let sortByAlphOrder = _.sortBy(newUniqueEncounterTypes);
+    let sortByAlphOrder = _.sortBy(newUniqueEncounterTypes);
 
-       this.encounterTypes = sortByAlphOrder;
+    this.encounterTypes = sortByAlphOrder;
 
   }
   public getPatient() {
@@ -102,6 +104,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
           this.patient = patient;
           this.loadPatientEncounters(patient.person.uuid);
         }
+        this.storePatientRecordPouchDB(patient);
       }
       , (err) => {
 
@@ -109,6 +112,21 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
           id: 'patient',
           message: 'error fetching patient'
         });
+      });
+  }
+
+  public storePatientRecordPouchDB(patient) {
+    let patientRecord = {
+      '_id': patient.person.uuid,
+      'patient': patient,
+      'encounters': this.encounters
+    };
+    console.log('PouchDB - Storing patient:', patientRecord)
+    this._offlineStorageService.storePatient(patientRecord).then((result) => {
+      console.log('Patient Saved Successfully', patientRecord);
+    })
+      .catch((error) => {
+        console.error('ERROR: Error saving Patient', patientRecord);
       });
   }
 
