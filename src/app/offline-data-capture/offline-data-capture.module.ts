@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppSettingsModule } from '../app-settings';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
-import { OfflineStorageService } from './offline-storage.service';
-import { OfflineStorageComponent } from './offline-storage.component';
+import { OfflineDataCaptureService } from './offline-data-capture.service';
+import { OfflineDataCaptureComponent } from './offline-data-capture.component';
 
 @NgModule({
   imports: [CommonModule, AppSettingsModule],
-  declarations: [OfflineStorageComponent],
+  declarations: [OfflineDataCaptureComponent],
   providers: [
     PatientResourceService,
-    OfflineStorageService
+    OfflineDataCaptureService
   ],
   exports: []
 })
 
-export class OfflineStorage {
+export class OfflineDataCapture {
 }

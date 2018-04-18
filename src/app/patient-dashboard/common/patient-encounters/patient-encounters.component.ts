@@ -9,7 +9,7 @@ import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-a
 import { EncounterTypeFilter } from './encounter-list.component.filterByEncounterType.pipe';
 
 import * as _ from 'lodash';
-import { OfflineStorageService } from '../../../offline-storage/offline-storage.service';
+import { OfflineDataCaptureService } from '../../../offline-data-capture/offline-data-capture.service';
 
 @Component({
   selector: 'app-patient-encounters',
@@ -38,7 +38,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
               private patientService: PatientService,
               private appFeatureAnalytics: AppFeatureAnalytics,
               private router: Router, private route: ActivatedRoute,
-              private _offlineStorageService: OfflineStorageService) { }
+              private _offlineDataCaptureService: OfflineDataCaptureService) { }
   public ngOnInit() {
     this.getPatient();
     // load cached result
@@ -122,7 +122,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
       'encounters': this.encounters
     };
     console.log('PouchDB - Storing patient:', patientRecord)
-    this._offlineStorageService.storePatient(patientRecord).then((result) => {
+    this._offlineDataCaptureService.storePatient(patientRecord).then((result) => {
       console.log('Patient Saved Successfully', patientRecord);
     })
       .catch((error) => {

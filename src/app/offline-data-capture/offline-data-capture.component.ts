@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { OfflineStorageService } from './offline-storage.service';
+import { OfflineDataCaptureService } from './offline-data-capture.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-offline-storage',
-  templateUrl: './offline-storage.component.html',
-  styleUrls: ['./offline-storage.component.css']
+  selector: 'app-offline-data-capture',
+  templateUrl: './offline-data-capture.component.html',
+  styleUrls: ['./offline-data-capture.component.css']
 })
-export class OfflineStorageComponent implements OnInit {
+export class OfflineDataCaptureComponent implements OnInit {
 
   public patients: any = [];
 
   constructor(
-    private _offlineStorageService: OfflineStorageService,
+    private _offlineDataCaptureService: OfflineDataCaptureService,
     private _patientResourceService: PatientResourceService) {
 
   }
@@ -44,7 +44,7 @@ export class OfflineStorageComponent implements OnInit {
   public savePatient(patientObj: any) {
     console.log('Saving patient ...', patientObj);
 
-    this._offlineStorageService.storePatient(patientObj)
+    this._offlineDataCaptureService.storePatient(patientObj)
       .then((result) => {
         console.log('Patient Saved Successfully', patientObj);
       })
@@ -62,7 +62,7 @@ export class OfflineStorageComponent implements OnInit {
           'output': patient
         };
         console.log('Data', data);
-        this._offlineStorageService.db.put(data);
+        this._offlineDataCaptureService.db.put(data);
       }, (error) => {
         console.error('ERROR: storeData() failed');
       });

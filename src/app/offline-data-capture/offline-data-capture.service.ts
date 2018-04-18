@@ -2,7 +2,7 @@ import PouchDB from 'pouchdb';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class OfflineStorageService {
+export class OfflineDataCaptureService {
   public db = new PouchDB('http://localhost:5984/db');
 
   constructor() {}

@@ -39,8 +39,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { CookieModule } from 'ngx-cookie';
 import { OnlineTrackerService } from './online-tracker/online-tracker.service';
-import { OfflineStorageComponent } from './offline-storage/offline-storage.component';
-import { OfflineStorageService } from './offline-storage/offline-storage.service';
+import { OfflineDataCaptureComponent } from './offline-data-capture/offline-data-capture.component';
+import { OfflineDataCaptureService } from './offline-data-capture/offline-data-capture.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -67,7 +67,7 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     TitleCasePipe,
     NoContentComponent,
     FeedBackComponent,
-    OfflineStorageComponent
+    OfflineDataCaptureComponent
   ],
   imports: [ // import Angular's modules
     BrowserAnimationsModule,
@@ -118,7 +118,7 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     LoginGuard,
     LocalStorageService,
     OnlineTrackerService,
-    OfflineStorageService,
+    OfflineDataCaptureService,
     {
       provide: Http,
       useFactory: httpClient,
