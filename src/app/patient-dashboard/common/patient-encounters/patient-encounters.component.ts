@@ -96,6 +96,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
     this.encounterTypes = sortByAlphOrder;
 
   }
+
   public getPatient() {
     this.dataLoading = true;
     this.subscription = this.patientService.currentlyLoadedPatient.subscribe(
@@ -121,8 +122,12 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
       'patient': patient,
       'encounters': this.encounters
     };
+    /*console.log('PouchDB - Removing old patientRecord if UUID exists in offline database:',
+      patient.person.uuid);
+    this._offlineDataCaptureService.removeExistingDataByUuid(patientRecord);*/
+
     console.log('PouchDB - Storing patient:', patientRecord)
-    this._offlineDataCaptureService.storePatient(patientRecord).then((result) => {
+    this._offlineDataCaptureService.storeCapturedData(patientRecord).then((result) => {
       console.log('Patient Saved Successfully', patientRecord);
     })
       .catch((error) => {

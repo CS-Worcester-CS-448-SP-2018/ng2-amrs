@@ -31,9 +31,9 @@ export class OfflineDataCaptureComponent implements OnInit {
     // iterate through the patient list array and save each
     let count: number = 0;
     _.each(patients, (patient) => {
-      count++;
+      // this.removeIfExistingPatient(patient);
       let patientRecord = {
-        '_id': count.toString(),
+        '_id': patient.person.uuid,
         'patient': patient
       };
       this.savePatient(patientRecord);
@@ -41,10 +41,15 @@ export class OfflineDataCaptureComponent implements OnInit {
 
   }
 
+  public removeIfExistingPatient(patient) {
+    console.log('PouchDB - Removing old patientRecord if ID exists in offline database:',
+      patient.person.uuid);
+    this._offlineDataCaptureService.removeExistingDataByUuid(patient.person.uuid);
+  }
+
   public savePatient(patientObj: any) {
     console.log('Saving patient ...', patientObj);
-
-    this._offlineDataCaptureService.storePatient(patientObj)
+    this._offlineDataCaptureService.storeCapturedData(patientObj)
       .then((result) => {
         console.log('Patient Saved Successfully', patientObj);
       })
