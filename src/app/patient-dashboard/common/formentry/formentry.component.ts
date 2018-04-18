@@ -115,20 +115,24 @@ export class FormentryComponent implements OnInit, OnDestroy {
       } else if (componentRef.draftedFormsService.lastDraftedForm !== null &&
         componentRef.draftedFormsService.lastDraftedForm !== undefined &&
         !componentRef.draftedFormsService.loadDraftOnNextFormLoad) {
-        this.confirmationService.confirm({
-          header: 'Unsaved Draft Form',
-          message: 'You have unsaved changes on your last form ' +
-          'that will be lost upon confirmation. Do you want to continue?',
-          rejectVisible: true,
-          acceptVisible: true,
-          accept: () => {
-            this.draftedFormsService.setDraftedForm(null);
-            componentRef.loadForm();
-          },
-          reject: () => {
-            componentRef.loadDraftedForm();
-          }
-        });
+        setTimeout(()=> {
+          this.confirmationService.confirm({
+            header: 'Unsaved Draft Form',
+            message: 'You have unsaved changes on your last form ' +
+            'that will be lost upon confirmation. Do you want to continue?',
+            rejectVisible: true,
+            acceptVisible: true,
+            accept: () => {
+              this.draftedFormsService.setDraftedForm(null);
+              componentRef.loadForm();
+            },
+            reject: () => {
+              componentRef.loadDraftedForm();
+            }
+          });
+
+        }, 1);
+
         return;
       }
       componentRef.loadForm();   // load  form
@@ -263,8 +267,8 @@ export class FormentryComponent implements OnInit, OnDestroy {
   }
 
   private loadDraftedForm() {
-    // console.log('patient uuid', this.patient.uuid);
     this.form = this.draftedFormsService.lastDraftedForm;
+    this.formName = this.form.schema.display;
 
     // get patient
 
