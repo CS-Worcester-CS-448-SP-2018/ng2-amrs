@@ -1,38 +1,49 @@
 import PouchDB from 'pouchdb';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 
 @Injectable()
-export class OfflineDataCaptureService {
-  public db = new PouchDB('http://localhost:5984/db');
+export class OfflineDataCaptureService implements OnInit {
+  public db: any = new PouchDB('http://localhost:5984/db');
 
-  constructor() {
-    this.db.destroy().then((response) => {
-      this.db = new PouchDB('http://localhost:5984/db');
-    }).catch((err) => {
-      console.log(err);
+  constructor() {}
+
+  public isExisting(data): boolean {
+    return this.db.get(data).then((existing) => {
+      return true;
+    }).catch((notExisting) => {
+      return false;
     });
   }
 
-  public isExisting(uuid): boolean {
-    this.db.get(uuid).catch((err) => {
-      if (err.name === 'not_found') {
-        return false;
-      }
-    });
-    return true;
-  }
-
-  public removeExistingDataByUuid(data) {
-    this.db.get(data).then((exists) => {
-      this.db.remove(data);
-    }).then((result) => {
-      console.log('Success');
-    }).catch((err) => {
-      console.log('UUID does not yet exist in offline database:', data);
+  public removeExistingOfflineData(data) {
+    return this.db.get(data._id).then((existing) => {
+      return this.db.remove(existing).then((success) => {
+        console.log('Data deleted from PouchDB - ID:', data._id);
+      });
+    }).catch((error) => {
+      console.log('Existing stored data not found for ID:', data._id);
     });
   }
 
   public storeCapturedData(data): Promise<string> {
+    return this.db.get(data._id).then((existing) => {
+      console.log('we hit the db.get(data).existing block');
+      console.log('existing._id:', existing._id);
+      console.log('existing._.rev:', existing._rev);
+      console.log('data _.rev:', data.rev);
+      return this.db.put({
+        _id: existing._id,
+        _rev: existing._rev,
+        // capturedData: 'IS THIS DOING ANYTHING AT ALL?!'
+        capturedData: data.capturedData
+      });
+    }).catch((notExisting) => {
+      console.log('Storing captured data for the first time:', data._id);
+      return this.db.put(data);
+    });
+  }
+
+  /*public storeCapturedData(data): Promise<string> {
     return new Promise((resolve, reject) => {
       try {
         this.db.put(data);
@@ -41,6 +52,8 @@ export class OfflineDataCaptureService {
         reject(error);
       }
     });
-  }
+  }*/
+
+  public ngOnInit() {}
 
 }

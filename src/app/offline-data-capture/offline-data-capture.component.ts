@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OfflineDataCaptureService } from './offline-data-capture.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
 import * as _ from 'lodash';
+import PouchDB from 'pouchdb';
 
 @Component({
   selector: 'app-offline-data-capture',
@@ -10,71 +11,56 @@ import * as _ from 'lodash';
 })
 export class OfflineDataCaptureComponent implements OnInit {
 
+  // public db = new PouchDB('http://localhost:5984/db');
   public patients: any = [];
 
   constructor(
     private _offlineDataCaptureService: OfflineDataCaptureService,
-    private _patientResourceService: PatientResourceService) {
+    private _patientResourceService: PatientResourceService) {}
 
-  }
-
-  public fetchPatients() {
+  public fetchPatients(storeOrRemove) {
+    console.log('fetchPatients.storeOrRemove:', storeOrRemove);
     this._patientResourceService.searchPatient('test')
       .subscribe((patients) => {
-        this.processPatients(patients);
+        this.processPatients(patients, storeOrRemove);
       }, (error) => {
         console.error('ERROR: storeData() failed');
       });
   }
 
-  public processPatients(patients) {
-    // iterate through the patient list array and save each
-    let count: number = 0;
-    _.each(patients, (patient) => {
-      // this.removeIfExistingPatient(patient);
+  public processPatients(patients, storeOrRemove) {
+    console.log('processPatients.storeOrRemove:', storeOrRemove);
+    for (let patient of patients) {
       let patientRecord = {
         '_id': patient.person.uuid,
-        'patient': patient
+        'capturedData': patient
       };
-      this.savePatient(patientRecord);
-    });
-
+      if (storeOrRemove === 'store') {
+        this.savePatient(patientRecord);
+      } else {
+        this.removeIfExistingPatient(patientRecord);
+      }
+    }
   }
 
-  public removeIfExistingPatient(patient) {
-    console.log('PouchDB - Removing old patientRecord if ID exists in offline database:',
-      patient.person.uuid);
-    this._offlineDataCaptureService.removeExistingDataByUuid(patient.person.uuid);
-  }
-
-  public savePatient(patientObj: any) {
-    console.log('Saving patient ...', patientObj);
-    this._offlineDataCaptureService.storeCapturedData(patientObj)
+  public savePatient(patientRecord: any) {
+    console.log('Saving patient ...', patientRecord);
+    this._offlineDataCaptureService.storeCapturedData(patientRecord)
       .then((result) => {
-        console.log('Patient Saved Successfully', patientObj);
+        console.log('Patient Saved Successfully', patientRecord);
       })
       .catch((error) => {
-        console.error('ERROR: Error saving Patient', patientObj);
+        console.error('ERROR: Error saving Patient', patientRecord);
       });
   }
 
-  /*public temp() {
-    this._patientResourceService.getPatientByUuid('5d386b7a-1359-11df-a1f1-0026b9348838')
-      .subscribe((patient) => {
-        console.log('Patient', patient);
-        let data = {
-          '_id': 'patient data',
-          'output': patient
-        };
-        console.log('Data', data);
-        this._offlineDataCaptureService.db.put(data);
-      }, (error) => {
-        console.error('ERROR: storeData() failed');
-      });
-  }*/
+  public removeIfExistingPatient(patientRecord) {
+    console.log('PouchDB - Removing old patientRecord if ID exists in offline database:',
+      patientRecord);
+    this._offlineDataCaptureService.removeExistingOfflineData(patientRecord);
+  }
+
   public ngOnInit() {
-    this.fetchPatients();
-    // this.temp();
   }
 
 }
