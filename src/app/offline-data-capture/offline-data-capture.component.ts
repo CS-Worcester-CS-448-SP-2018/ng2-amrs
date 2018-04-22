@@ -1,17 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { OfflineDataCaptureService } from './offline-data-capture.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
-import * as _ from 'lodash';
-import PouchDB from 'pouchdb';
 
 @Component({
   selector: 'app-offline-data-capture',
   templateUrl: './offline-data-capture.component.html',
   styleUrls: ['./offline-data-capture.component.css']
 })
-export class OfflineDataCaptureComponent implements OnInit {
-
-  // public db = new PouchDB('http://localhost:5984/db');
+export class OfflineDataCaptureComponent {
   public patients: any = [];
 
   constructor(
@@ -58,9 +54,6 @@ export class OfflineDataCaptureComponent implements OnInit {
     console.log('PouchDB - Removing old patientRecord if ID exists in offline database:',
       patientRecord);
     this._offlineDataCaptureService.removeExistingOfflineData(patientRecord);
-  }
-
-  public ngOnInit() {
   }
 
 }

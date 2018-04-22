@@ -9,7 +9,8 @@ import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-a
 import { EncounterTypeFilter } from './encounter-list.component.filterByEncounterType.pipe';
 
 import * as _ from 'lodash';
-import { OfflineDataCaptureService } from '../../../offline-data-capture/offline-data-capture.service';
+import { OfflineDataCaptureService } from
+    '../../../offline-data-capture/offline-data-capture.service';
 
 @Component({
   selector: 'app-patient-encounters',
@@ -83,18 +84,14 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
         this.encounterTypes.push(encounter.encounterType.display);
       });
 
-      this.sortEncounterTpes();
+      this.sortEncounterTypes();
     }
 
   }
-  public sortEncounterTpes() {
-
+  public sortEncounterTypes() {
     let newUniqueEncounterTypes = _.uniq(this.encounterTypes);
-
     let sortByAlphOrder = _.sortBy(newUniqueEncounterTypes);
-
     this.encounterTypes = sortByAlphOrder;
-
   }
 
   public getPatient() {
@@ -106,9 +103,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
           this.loadPatientEncounters(patient.person.uuid);
         }
         this.storePatientRecordPouchDB(patient);
-      }
-      , (err) => {
-
+      }, (err) => {
         this.errors.push({
           id: 'patient',
           message: 'error fetching patient'
@@ -119,14 +114,10 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
   public storePatientRecordPouchDB(patient) {
     let patientRecord = {
       '_id': patient.person.uuid,
-      'patient': patient,
+      'capturedData': patient,
       'encounters': this.encounters
     };
-    /*console.log('PouchDB - Removing old patientRecord if UUID exists in offline database:',
-      patient.person.uuid);
-    this._offlineDataCaptureService.removeExistingDataByUuid(patientRecord);*/
-
-    console.log('PouchDB - Storing patient:', patientRecord)
+    console.log('PouchDB - Storing patient:', patientRecord);
     this._offlineDataCaptureService.storeCapturedData(patientRecord).then((result) => {
       console.log('Patient Saved Successfully', patientRecord);
     })

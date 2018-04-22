@@ -1,8 +1,8 @@
 import PouchDB from 'pouchdb';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
-export class OfflineDataCaptureService implements OnInit {
+export class OfflineDataCaptureService {
   public db: any = new PouchDB('http://localhost:5984/db');
 
   constructor() {}
@@ -27,14 +27,9 @@ export class OfflineDataCaptureService implements OnInit {
 
   public storeCapturedData(data): Promise<string> {
     return this.db.get(data._id).then((existing) => {
-      console.log('we hit the db.get(data).existing block');
-      console.log('existing._id:', existing._id);
-      console.log('existing._.rev:', existing._rev);
-      console.log('data _.rev:', data.rev);
       return this.db.put({
         _id: existing._id,
         _rev: existing._rev,
-        // capturedData: 'IS THIS DOING ANYTHING AT ALL?!'
         capturedData: data.capturedData
       });
     }).catch((notExisting) => {
@@ -42,18 +37,5 @@ export class OfflineDataCaptureService implements OnInit {
       return this.db.put(data);
     });
   }
-
-  /*public storeCapturedData(data): Promise<string> {
-    return new Promise((resolve, reject) => {
-      try {
-        this.db.put(data);
-        resolve('Success');
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }*/
-
-  public ngOnInit() {}
 
 }
