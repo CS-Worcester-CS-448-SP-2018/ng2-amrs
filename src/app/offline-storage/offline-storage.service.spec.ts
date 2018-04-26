@@ -34,7 +34,10 @@ describe('OfflineStorageService', () => {
   it('Should be able to add a patient to the PouchDB database',
     inject([OfflineStorageService], () => {
       service.createDB('test3');
-      expect(service.addDoc(patient2)).toBeTruthy();
+      service.addDoc(patient2).then((response) => {
+        console.log(response);
+        expect(response.ok).toBe(true);
+      });
     })
   );
 
