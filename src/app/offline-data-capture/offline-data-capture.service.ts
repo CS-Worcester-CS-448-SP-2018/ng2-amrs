@@ -30,7 +30,8 @@ export class OfflineDataCaptureService {
       return this.db.put({
         _id: existing._id,
         _rev: existing._rev,
-        capturedData: data.capturedData
+        patient: data.patient,
+        vitals: data.vitals
       });
     }).catch((notExisting) => {
       console.log('Storing captured data for the first time:', data._id);

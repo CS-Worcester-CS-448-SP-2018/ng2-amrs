@@ -41,6 +41,8 @@ import { CookieModule } from 'ngx-cookie';
 import { OnlineTrackerService } from './online-tracker/online-tracker.service';
 import { OfflineDataCaptureComponent } from './offline-data-capture/offline-data-capture.component';
 import { OfflineDataCaptureService } from './offline-data-capture/offline-data-capture.service';
+// noinspection TsLint
+import { PatientVitalsService } from './patient-dashboard/common/patient-vitals/patient-vitals.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -119,6 +121,7 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     LocalStorageService,
     OnlineTrackerService,
     OfflineDataCaptureService,
+    PatientVitalsService,
     {
       provide: Http,
       useFactory: httpClient,

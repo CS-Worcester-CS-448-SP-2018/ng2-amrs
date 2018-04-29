@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { OfflineDataCaptureService } from './offline-data-capture.service';
 import { PatientResourceService } from '../openmrs-api/patient-resource.service';
+import { VitalsResourceService } from '../etl-api/vitals-resource.service';
 
 @Component({
   selector: 'app-offline-data-capture',
@@ -9,10 +10,12 @@ import { PatientResourceService } from '../openmrs-api/patient-resource.service'
 })
 export class OfflineDataCaptureComponent {
   public patients: any = [];
+  // public vitals: any;
 
   constructor(
     private _offlineDataCaptureService: OfflineDataCaptureService,
-    private _patientResourceService: PatientResourceService) {}
+    private _patientResourceService: PatientResourceService,
+    private _vitalsResourceService: VitalsResourceService ) {}
 
   public fetchPatients(storeOrRemove) {
     console.log('fetchPatients.storeOrRemove:', storeOrRemove);
@@ -20,16 +23,18 @@ export class OfflineDataCaptureComponent {
       .subscribe((patients) => {
         this.processPatients(patients, storeOrRemove);
       }, (error) => {
-        console.error('ERROR: storeData() failed');
+        console.error('ERROR: fetchPatients() failed');
       });
   }
 
   public processPatients(patients, storeOrRemove) {
     console.log('processPatients.storeOrRemove:', storeOrRemove);
     for (let patient of patients) {
+      let patientVitals = this.captureVitals(patient.person.uuid);
+
       let patientRecord = {
         '_id': patient.person.uuid,
-        'capturedData': patient
+        'patient': patient
       };
       if (storeOrRemove === 'store') {
         this.savePatient(patientRecord);
@@ -37,6 +42,29 @@ export class OfflineDataCaptureComponent {
         this.removeIfExistingPatient(patientRecord);
       }
     }
+  }
+
+  public captureVitals(patientUuid): any {
+    console.log('captureVitals:', patientUuid);
+    this._vitalsResourceService.getVitals(patientUuid, 1, 10)
+      .subscribe((vitals) => {
+          console.log('vitals, patientUuid:', vitals, patientUuid);
+          // return JSON.stringify(vitals);
+
+          let vitalsArray: any = [];
+          vitalsArray = vitals;
+
+          if (vitalsArray.length > 1) {
+            let patientRecord = {
+              '_id': 'vitals-' + patientUuid,
+              'vitals': vitals,
+            };
+            this.savePatient(patientRecord);
+          }
+        },
+        (err) => {
+          console.error('ERROR: fetchVitals() failed');
+        });
   }
 
   public savePatient(patientRecord: any) {
