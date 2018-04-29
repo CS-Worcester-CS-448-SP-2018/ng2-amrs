@@ -10,6 +10,7 @@ import { VitalsResourceService } from '../etl-api/vitals-resource.service';
 })
 export class OfflineDataCaptureComponent {
   public patients: any = [];
+  public types: Array<string> = ['patient-', 'vitals-'];
   // public vitals: any;
 
   constructor(
@@ -30,16 +31,22 @@ export class OfflineDataCaptureComponent {
   public processPatients(patients, storeOrRemove) {
     console.log('processPatients.storeOrRemove:', storeOrRemove);
     for (let patient of patients) {
-      let patientVitals = this.captureVitals(patient.person.uuid);
-
       let patientRecord = {
-        '_id': patient.person.uuid,
+        '_id': 'patient-' + patient.person.uuid,
         'patient': patient
       };
+
       if (storeOrRemove === 'store') {
+        this.captureVitals(patient.person.uuid);
+
         this.savePatient(patientRecord);
+
       } else {
-        this.removeIfExistingPatient(patientRecord);
+        let vitalsRecord = {
+          '_id': 'vitals-' + patient.person.uuid,
+        }
+        this.removeIfExistingRecord(patientRecord);
+        this.removeIfExistingRecord(vitalsRecord);
       }
     }
   }
@@ -49,7 +56,6 @@ export class OfflineDataCaptureComponent {
     this._vitalsResourceService.getVitals(patientUuid, 1, 10)
       .subscribe((vitals) => {
           console.log('vitals, patientUuid:', vitals, patientUuid);
-          // return JSON.stringify(vitals);
 
           let vitalsArray: any = [];
           vitalsArray = vitals;
@@ -78,10 +84,10 @@ export class OfflineDataCaptureComponent {
       });
   }
 
-  public removeIfExistingPatient(patientRecord) {
-    console.log('PouchDB - Removing old patientRecord if ID exists in offline database:',
-      patientRecord);
-    this._offlineDataCaptureService.removeExistingOfflineData(patientRecord);
+  public removeIfExistingRecord(record) {
+      console.log('PouchDB - Removing old record if ID exists in offline database:',
+        record);
+      this._offlineDataCaptureService.removeExistingOfflineData(record);
   }
 
 }
