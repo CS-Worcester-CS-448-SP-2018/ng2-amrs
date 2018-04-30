@@ -31,7 +31,9 @@ export class OfflineDataCaptureService {
         _id: existing._id,
         _rev: existing._rev,
         patient: data.patient,
-        vitals: data.vitals
+        vitals: data.vitals,
+        visits: data.visits,
+        labs: data.labs
       });
     }).catch((notExisting) => {
       console.log('Storing captured data for the first time:', data._id);
