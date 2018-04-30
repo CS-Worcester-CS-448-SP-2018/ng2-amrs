@@ -102,7 +102,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
           this.patient = patient;
           this.loadPatientEncounters(patient.person.uuid);
         }
-        this.storePatientRecordPouchDB(patient);
+        // this.storePatientRecordPouchDB(patient);
       }, (err) => {
         this.errors.push({
           id: 'patient',
@@ -111,7 +111,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
       });
   }
 
-  public storePatientRecordPouchDB(patient) {
+  /* public storePatientRecordPouchDB(patient) {
     let patientRecord = {
       '_id': patient.person.uuid,
       'capturedData': patient,
@@ -124,7 +124,7 @@ export class PatientEncountersComponent implements OnInit, OnDestroy {
       .catch((error) => {
         console.error('ERROR: Error saving Patient', patientRecord);
       });
-  }
+  } */
 
   public editEncounter(encounter) {
     if (encounter) {
