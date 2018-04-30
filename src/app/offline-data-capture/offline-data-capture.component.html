@@ -1,7 +1,30 @@
 <div>Demonstration of capturing/storing/removing data of 200 test patients:
   <p>
-    <button (click)="(fetchPatients('store'))">Capture/Store</button>
-    <button (click)="(fetchPatients('remove'))">Remove</button>
+    <button (click)="(capturePatients('store'))">Capture/Store</button>
+    <button (click)="(capturePatients('remove'))">Remove</button>
   </p>
   (Look in the console)
+</div>
+
+<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+  <table class="table table-striped" *ngIf="patientLoaded">
+    <tbody>
+    <tr>
+      <td>Name : </td>
+      <td>{{patient1.person.display}}</td>
+    </tr>
+    <tr>
+      <td>Age : </td>
+      <td>{{patient1.person.age}}</td>
+    </tr>
+    <tr>
+      <td>BirthDate : </td>
+      <td>{{patient1.person.birthdate}}</td>
+    </tr>
+    <tr *ngFor="let attribute of this.patient.person.attributes">
+      <td>{{attribute.attributeType.display}} </td>
+      <td></td>
+    </tr>
+    </tbody>
+  </table>
 </div>
