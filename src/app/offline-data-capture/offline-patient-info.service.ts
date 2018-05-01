@@ -9,22 +9,17 @@ export class OfflinePatientInfoService {
 
   public db: any = new PouchDB('http://localhost:5984/db');
 
-  constructor(protected http: Http) {
+  constructor() {
   }
 
-  public getPatient(record): Promise<any> {
-    let patient: any = [];
-    let promise = new Promise((resolve, reject) => {
-      this.db.get(record).then((result: any) => {
-        patient = result.patient;
-        console.log('getPatient', patient);
-        resolve(patient);
-      }).catch((notExisting) => {
-        console.log('Patient not found in PouchDB:', record);
-      });
-
+  public getInfo(uuid) {
+    let patient: any;
+    this.db.get(uuid).then((result: any) => {
+      console.log('result:', result);
+      patient = result.patient;
+    }).catch((notExisting) => {
+      console.log('Info not found for uuid:', uuid);
     });
-
-    return promise;
+    return patient;
   }
 }

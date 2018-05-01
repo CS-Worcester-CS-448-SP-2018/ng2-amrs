@@ -1,0 +1,22 @@
+<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+  <table class="table table-striped" *ngIf="patientLoaded">
+    <tbody>
+    <tr>
+      <td>Name : </td>
+      <td>{{patient.person.display}}</td>
+    </tr>
+    <tr>
+      <td>Age : </td>
+      <td>{{patient.person.age}}</td>
+    </tr>
+    <tr>
+      <td>BirthDate : </td>
+      <td>{{patient.person.birthdate}}</td>
+    </tr>
+    <tr *ngFor="let attribute of this.patient.person.attributes">
+      <td>{{attribute.attributeType.display}} </td>
+      <td></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

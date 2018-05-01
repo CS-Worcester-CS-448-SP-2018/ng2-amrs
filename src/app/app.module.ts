@@ -44,6 +44,7 @@ import { OfflineDataCaptureService } from './offline-data-capture/offline-data-c
 // noinspection TsLint
 import { PatientVitalsService } from './patient-dashboard/common/patient-vitals/patient-vitals.service';
 import { OfflinePatientInfoService } from './offline-data-capture/offline-patient-info.service';
+import { OfflinePatientInfoComponent } from './offline-data-capture/offline-patient-info.component';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -70,7 +71,8 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     TitleCasePipe,
     NoContentComponent,
     FeedBackComponent,
-    OfflineDataCaptureComponent
+    OfflineDataCaptureComponent,
+    OfflinePatientInfoComponent,
   ],
   imports: [ // import Angular's modules
     BrowserAnimationsModule,

@@ -186,21 +186,8 @@ export class OfflineDataCaptureComponent implements OnInit, OnDestroy {
     this._offlineDataCaptureService.removeExistingOfflineData(record);
   }
 
-  public getPatient() {
-    this._offlinePatientInfoService.getPatient('patient-064e419c-ff4e-4a6f-b83f-e1df48e80723')
-      .then((result) => {
-        this.patient1 = result;
-        this.patientLoaded = true;
-        console.log('Patient Result', this.patient1);
-      });
-    console.log('patient1', this.patient1);
-  }
+  public ngOnInit() {}
 
-  public ngOnInit() {
-    this.getPatient();
-  }
-
-  public ngOnDestroy(): void {
-  }
+  public ngOnDestroy(): void {}
 
 }
