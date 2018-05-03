@@ -67,8 +67,8 @@ export class OfflineDataCaptureComponent implements OnInit, OnDestroy {
       } else {
         this.removeIfExistingRecord(patientRecord);
 
-        let vitalsRecord = { '_id': 'vitals-' + patient.person.uuid };
-        this.removeIfExistingRecord(vitalsRecord);
+        let vitals = { '_id': 'vitals-' + patient.person.uuid };
+        this.removeIfExistingRecord(vitals);
 
         let visits = { '_id': 'visits-' + patient.person.uuid };
         this.removeIfExistingRecord(visits);

@@ -1,8 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
-import { PatientService } from '../../services/patient.service';
-import { Patient } from '../../../models/patient.model';
-import { Subscription } from 'rxjs';
 import { OfflinePatientInfoService } from './offline-patient-info.service';
 
 @Component({
@@ -12,19 +8,23 @@ import { OfflinePatientInfoService } from './offline-patient-info.service';
 })
 export class OfflinePatientInfoComponent implements OnInit, OnDestroy {
 
-  public patient: any;
+  // public patient: any;
   public patientLoaded: boolean = false;
   constructor(private _offlinePatientInfoService: OfflinePatientInfoService) {
   }
 
-  public ngOnInit() {
-    this.patient = this._offlinePatientInfoService.getInfo(
+  public getPatient() {
+    let patient: any[] = this._offlinePatientInfoService.getPatient(
       'patient-064e419c-ff4e-4a6f-b83f-e1df48e80723');
     this.patientLoaded = true;
-    console.log('Patient Result', this.patient);
+    console.log('component - result', patient);
   }
 
-  public ngOnDestroy(): void {
+  public ngOnInit() {
+  }
+
+  public ngOnDestroy() {
+
   }
 
 }
