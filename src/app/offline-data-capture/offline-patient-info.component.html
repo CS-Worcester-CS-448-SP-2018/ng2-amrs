@@ -15,7 +15,7 @@
       <td>BirthDate : </td>
       <td>{{patient.person.birthdate}}</td>
     </tr>
-    <tr *ngFor="let attribute of this.patient.person.attributes">
+    <tr *ngFor="let attribute of patient.person.attributes">
       <td>{{attribute.attributeType.display}} </td>
       <td></td>
     </tr>
