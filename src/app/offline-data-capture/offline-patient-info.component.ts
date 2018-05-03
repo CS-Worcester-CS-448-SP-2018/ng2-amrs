@@ -9,22 +9,36 @@ import { OfflinePatientInfoService } from './offline-patient-info.service';
 export class OfflinePatientInfoComponent implements OnInit, OnDestroy {
 
   public patient: any;
+  public vitals: any;
+
   public patientLoaded: boolean = false;
+  public vitalsLoaded: boolean = false;
+
   constructor(private _offlinePatientInfoService: OfflinePatientInfoService) {
   }
   public getPatient() {
-    return this._offlinePatientInfoService.getPatient(
+    return this._offlinePatientInfoService.getInfo(
       'patient-064e419c-ff4e-4a6f-b83f-e1df48e80723').then((result) => {
       this.patientLoaded = true;
       this.patient = result.patient;
       console.log('component result:', result);
       console.log('component patient:', this.patient);
-      // console.log('component - patient.patient', patient.patient);
+      this.getVitals();
     }).catch((notExisting) => {
       console.log('getPatient(): UUID not found in PouchDB database.');
     });
-    // console.log('component outside promise - patient:', patient);
-    // console.log('component outside promise - patient.patient', patient.patient);
+  }
+
+  public getVitals() {
+    return this._offlinePatientInfoService.getInfo(
+      'vitals-064e419c-ff4e-4a6f-b83f-e1df48e80723').then((result) => {
+      this.vitalsLoaded = true;
+      this.vitals = result.vitals;
+      console.log('component result:', result);
+      console.log('component vitals:', this.vitals);
+    }).catch((notExisting) => {
+      console.log('getVitals(): UUID not found in PouchDB database.');
+    });
   }
 
   public ngOnInit() {

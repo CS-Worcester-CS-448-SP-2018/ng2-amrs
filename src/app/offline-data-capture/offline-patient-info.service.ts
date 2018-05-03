@@ -9,7 +9,7 @@ export class OfflinePatientInfoService {
   constructor() {
   }
 
-  public getPatient(uuid) {
+  public getInfo(uuid) {
     return this.db.get(uuid).then((result: any) => {
       console.log('service- inside the promise, result', result);
       return result;
