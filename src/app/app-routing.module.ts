@@ -3,8 +3,6 @@ import { FormVisitTypeSearchComponent } from
 import { Routes } from '@angular/router';
 import { NoContentComponent } from './no-content';
 import { FeedBackComponent } from './feedback';
-import { OfflineDataCaptureComponent } from './offline-data-capture/offline-data-capture.component';
-import { OfflinePatientInfoComponent } from './offline-data-capture/offline-patient-info.component';
 
 export const ROUTES: Routes = [
   {
@@ -17,7 +15,7 @@ export const ROUTES: Routes = [
   {path: 'form-visit-search', loadChildren:
    './patient-dashboard/common/form-visit-type-search/form-visit-type-search.module#' +
    'FormVisitTypeSearchModule'},
-  {path: 'offline-data-capture', component: OfflineDataCaptureComponent},
-  {path: 'offline-patient-info', component: OfflinePatientInfoComponent},
+  // {path: 'offline-data-capture', component: OfflineDataCaptureComponent},
+  // {path: 'offline-patient-info', component: OfflinePatientInfoComponent},
   {path: '**', component: NoContentComponent},
 ];

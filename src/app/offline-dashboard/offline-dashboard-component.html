@@ -1,8 +1,16 @@
 <div class="box box-solid">
-    <div class="box-body" id="section-box-body">
-      <div class="component-wrapper">
-        <router-outlet></router-outlet>
-      </div>
+  <div class="box-body" id="section-box-body">
+    <div class="component-wrapper">
+      <router-outlet></router-outlet>
+      <li class="offline-data-capture" routerLinkActive="active">
+        <a routerLink="/offline-dashboard/offline-data-capture"> <i class="fa fa-user-md"></i>
+          <span class="hidden-xs hidden-sm">Offline Data Capture</span> </a>
+      </li>
+      <li class="offline-patient-info" routerLinkActive="active">
+
+        <a routerLink="/offline-dashboard/offline-patient-info"> <i class="fa fa-user-md"></i>
+          <span class="hidden-xs hidden-sm">Offline Patient Info</span> </a>
+      </li>
     </div>
   </div>
-  
+</div>

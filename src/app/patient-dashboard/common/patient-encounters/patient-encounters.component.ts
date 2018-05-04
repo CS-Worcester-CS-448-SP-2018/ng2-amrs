@@ -10,7 +10,7 @@ import { EncounterTypeFilter } from './encounter-list.component.filterByEncounte
 
 import * as _ from 'lodash';
 import { OfflineDataCaptureService } from
-    '../../../offline-data-capture/offline-data-capture.service';
+    '../../../offline-dashboard/offline-data-capture/offline-data-capture.service';
 
 @Component({
   selector: 'app-patient-encounters',

@@ -1,0 +1,92 @@
+<div>
+  <strong>Look up Patient by UUID:</strong>
+  <input (keyup.enter)="onInput($event)" value="Enter Patient UUID Here">
+</div>
+
+<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="patient">
+  <table class="table table-striped" *ngIf="patientLoaded">
+    <tbody>
+    <strong>Patient</strong>
+    <tr>
+      <td>Name: </td>
+      <td>{{patient.person.display}}</td>
+    </tr>
+    <tr>
+      <td>Identifier: </td>
+      <td>{{patient.display}}</td>
+    </tr>
+
+    <tr>
+      <td>Age: </td>
+      <td>{{patient.person.age}}</td>
+    </tr>
+    <tr>
+      <td>BirthDate: </td>
+      <td>{{patient.person.birthdate}}</td>
+    </tr>
+
+    <tr *ngFor="let attribute of patient.person.attributes">
+      <td>{{attribute.attributeType.display}} </td>
+      <td></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="vitals">
+  <table class="table table-striped" *ngIf="vitalsLoaded">
+    <tbody>
+    <strong>Vitals</strong>
+    <tr *ngFor="let vital of vitals">
+      <td>Encounter ID: </td>
+      <td>{{vital.encounter_id}}</td>
+
+      <td>Encounter Date:</td>
+      <td>{{vital.encounter_datetime}}</td>
+
+      <td>Location:</td>
+      <td>{{vital.location_id}}</td>
+
+      <td>Weight:</td>
+      <td>{{vital.weight}}</td>
+
+      <td>Height:</td>
+      <td>{{vital.height}}</td>
+
+      <td>Temperature:</td>
+      <td>{{vital.temp}}</td>
+
+      <td>Oxygen_Sat:</td>
+      <td>{{vital.oxygen_sat}}</td>
+
+      <td>Systolic_BP:</td>
+      <td>{{vital.systolic_bp}}</td>
+
+      <td>Diastolic_BP:</td>
+      <td>{{vital.diastolic_bp}}</td>
+
+      <td>Pulse:</td>
+      <td>{{vital.pulse}}</td>
+    </tr>
+  </table>
+</div>
+
+<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" id="visits">
+  <table class="table table-striped" *ngIf="visitsLoaded">
+    <tbody>
+    <strong>Visits</strong>
+    <tr *ngFor="let visit of visits">
+      <td>Encounter Date:</td>
+      <td>{{visit.encounterDateTime}}</td>
+
+      <td>Location:</td>
+      <td>{{visit.location.display}}</td>
+
+      <td>Form:</td>
+      <td>{{visit.form.name}}</td>
+
+      <td>Encounter Type:</td>
+      <td>{{visit.encounterType.display}}</td>
+    </tr>
+  </table>
+</div>

@@ -10,20 +10,33 @@ export class OfflinePatientInfoComponent implements OnInit, OnDestroy {
 
   public patient: any;
   public vitals: any;
+  public visits: any;
 
   public patientLoaded: boolean = false;
   public vitalsLoaded: boolean = false;
+  public visitsLoaded: boolean = false;
+  public query: any;
 
   constructor(private _offlinePatientInfoService: OfflinePatientInfoService) {
   }
+
+  public onInput(event: any) {
+    this.query = event.target.value;
+    this.getPatient();
+  }
+
   public getPatient() {
     return this._offlinePatientInfoService.getInfo(
-      'patient-064e419c-ff4e-4a6f-b83f-e1df48e80723').then((result) => {
+      'patient-' + this.query).then((result) => {
       this.patientLoaded = true;
       this.patient = result.patient;
+
       console.log('component result:', result);
       console.log('component patient:', this.patient);
+
       this.getVitals();
+      this.getVisits();
+
     }).catch((notExisting) => {
       console.log('getPatient(): UUID not found in PouchDB database.');
     });
@@ -31,13 +44,25 @@ export class OfflinePatientInfoComponent implements OnInit, OnDestroy {
 
   public getVitals() {
     return this._offlinePatientInfoService.getInfo(
-      'vitals-064e419c-ff4e-4a6f-b83f-e1df48e80723').then((result) => {
+      'vitals-' + this.query).then((result) => {
       this.vitalsLoaded = true;
       this.vitals = result.vitals;
       console.log('component result:', result);
       console.log('component vitals:', this.vitals);
     }).catch((notExisting) => {
       console.log('getVitals(): UUID not found in PouchDB database.');
+    });
+  }
+
+  public getVisits() {
+    return this._offlinePatientInfoService.getInfo(
+      'visits-' + this.query).then((result) => {
+      this.visitsLoaded = true;
+      this.visits = result.visits;
+      console.log('component result:', result);
+      console.log('component visits:', this.visits);
+    }).catch((notExisting) => {
+      console.log('getVisits(): UUID not found in PouchDB database.');
     });
   }
 

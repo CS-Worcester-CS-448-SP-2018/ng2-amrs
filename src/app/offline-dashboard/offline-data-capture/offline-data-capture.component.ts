@@ -1,15 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OfflineDataCaptureService } from './offline-data-capture.service';
-import { PatientResourceService } from '../openmrs-api/patient-resource.service';
-import { VitalsResourceService } from '../etl-api/vitals-resource.service';
-import { VisitResourceService } from '../openmrs-api/visit-resource.service';
-import { EncounterResourceService } from '../openmrs-api/encounter-resource.service';
-import { LabsResourceService } from '../etl-api/labs-resource.service';
+import { PatientResourceService } from '../../openmrs-api/patient-resource.service';
+import { VitalsResourceService } from '../../etl-api/vitals-resource.service';
+import { VisitResourceService } from '../../openmrs-api/visit-resource.service';
+import { EncounterResourceService } from '../../openmrs-api/encounter-resource.service';
+import { LabsResourceService } from '../../etl-api/labs-resource.service';
 import { HivPatientClinicalSummaryResourceService } from
-    '../etl-api/hiv-patient-clinical-summary-resource.service';
+    '../../etl-api/hiv-patient-clinical-summary-resource.service';
 import { HivSummaryIndicatorsResourceService } from
-    '../etl-api/hiv-summary-indicators-resource.service';
-import { OfflinePatientInfoService } from './offline-patient-info.service';
+    '../../etl-api/hiv-summary-indicators-resource.service';
+import { OfflinePatientInfoService } from '../offline-patient-info/offline-patient-info.service';
 import { AppFeatureAnalytics } from '../../../shared/app-analytics/app-feature-analytics.service';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../../models/patient.model';

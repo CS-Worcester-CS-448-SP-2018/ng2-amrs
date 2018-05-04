@@ -39,12 +39,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { CookieModule } from 'ngx-cookie';
 import { OnlineTrackerService } from './online-tracker/online-tracker.service';
-import { OfflineDataCaptureComponent } from './offline-data-capture/offline-data-capture.component';
-import { OfflineDataCaptureService } from './offline-data-capture/offline-data-capture.service';
 // noinspection TsLint
 import { PatientVitalsService } from './patient-dashboard/common/patient-vitals/patient-vitals.service';
-import { OfflinePatientInfoService } from './offline-data-capture/offline-patient-info.service';
-import { OfflinePatientInfoComponent } from './offline-data-capture/offline-patient-info.component';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -71,8 +67,8 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     TitleCasePipe,
     NoContentComponent,
     FeedBackComponent,
-    OfflineDataCaptureComponent,
-    OfflinePatientInfoComponent,
+    // OfflineDataCaptureComponent,
+    // OfflinePatientInfoComponent,
   ],
   imports: [ // import Angular's modules
     BrowserAnimationsModule,
@@ -123,9 +119,9 @@ export function httpClient(xhrBackend: XHRBackend, requestOptions: RequestOption
     LoginGuard,
     LocalStorageService,
     OnlineTrackerService,
-    OfflineDataCaptureService,
     PatientVitalsService,
-    OfflinePatientInfoService,
+    // OfflineDataCaptureService,
+    // OfflinePatientInfoService,
     {
       provide: Http,
       useFactory: httpClient,
