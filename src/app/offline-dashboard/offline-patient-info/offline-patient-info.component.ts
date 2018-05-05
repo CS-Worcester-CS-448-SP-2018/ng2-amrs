@@ -8,9 +8,9 @@ import { OfflinePatientInfoService } from './offline-patient-info.service';
 })
 export class OfflinePatientInfoComponent implements OnInit, OnDestroy {
 
-  public patient: any;
-  public vitals: any;
-  public visits: any;
+  public patient: any = [];
+  public vitals: any = [];
+  public visits: any = [];
 
   public patientLoaded: boolean = false;
   public vitalsLoaded: boolean = false;
@@ -23,6 +23,13 @@ export class OfflinePatientInfoComponent implements OnInit, OnDestroy {
   public onInput(event: any) {
     this.query = event.target.value;
     this.getPatient();
+    this.clearOutput();
+  }
+
+  public clearOutput() {
+    this.patient.length = 0;
+    this.vitals.length = 0;
+    this.visits.length = 0;
   }
 
   public getPatient() {
@@ -70,7 +77,6 @@ export class OfflinePatientInfoComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-
   }
 
 }
