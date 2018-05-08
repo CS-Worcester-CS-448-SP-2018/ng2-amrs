@@ -23,6 +23,8 @@ import { FormsResourceService } from '../openmrs-api/forms-resource.service';
 import { Observable } from 'rxjs/Observable';
 import { MdSnackBar } from '@angular/material';
 import * as _ from 'lodash';
+import { PrivateKeygen } from '../encryption/private-keygen.service';
+
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',

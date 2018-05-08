@@ -1,0 +1,44 @@
+Procedure: set up ng2-amrs locally
+
+1) Make sure you have nvm (node version manager) installed.
+2) Clone the ng2-amrs project to your system.
+3) cd into the ng2-amrs project folder.
+4) Check your node and npm versions with "node -v" and "npm -v"; I used node 9.4.0 and npm 5.6.0
+	4a) You can update node with the "nvm install latest" command, and make sure you're using the latest version with
+		"node use <version>".
+	4b) You can update to the latest npm version with the "npm install -g npm@latest" command (-g is the global flag).
+	4c) You can use these commands to install/use an older version of node or npm (replace "latest" with <version>).
+5) Install global dependencies for ng2-amrs (run the following commands, in order):
+	5a) npm install -g webpack
+	5b) npm install -g webpack-dev-server
+	5c) npm install -g karma-cli
+	5d) npm install -g protractor
+	5e) npm install -g typescript
+	5f) npm install -g release-it
+6) Install additional ng2-amrs dependencies (run the following commands, in order):
+	6a) npm install webpack-dev-server rimraf webpack -g
+	6b) npm install
+
+If everything went well, you should be able to access the login screen for Ampath's EMR in a new tab by running the
+	command "npm run server" in your terminal.
+
+If the server failed to start due to an issue with ladda (check the console for exception messages):
+
+ERROR in ./~/angular2-ladda/module/ladda.directive.js
+Module not found: Error: Can't resolve 'ladda' in '..\ng2-amrs\node_modules\angular2-ladda\module'
+...
+...
+ERROR in ./~/css-loader!./~/sass-loader/lib/loader.js!./src/styles/styles.scss
+Module not found: Error: Can't resolve 'ladda/dist/ladda.min.css' in '..\ng2-amrs\src\styles'
+...
+...
+webpack: Failed to compile.
+
+1) Navigate to your ng2-amrs project directory.
+2) Add a "/ladda/dist" directory to "src/styles".
+3) Navigate to "node_modules\angular2-ladda\node_modules\ladda\dist".
+4) Copy "ladda.min.css" from that folder to "src/styles/ladda/dist".
+5) In "src/styles" open "styles.scss".
+6) Modify line 12 from "@import "~ladda/dist/ladda.min.css";" to "./ladda/dist/ladda.min.css";".
+7) Open "ladda.directive.js" located in "node_modules\angular2-ladda\module".
+8) Change line 59 from "var Ladda = require('ladda');" to "var Ladda = require('../node_modules/ladda');".
