@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public timer: Observable<any>;
   public subscribeToTimer: boolean = true;
   public showCheckbox: boolean = false;
-  public storeCredentialsCheckboxChecked: boolean;
+  public storeCredentialsCheckboxChecked: boolean = false;
 
   @ViewChildren('password') public passwordField;
 
@@ -219,8 +219,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   public checkTheCheckbox(event) {
     if (event.target.checked) {
-      console.log ('this is checked');
       this.storeCredentialsCheckboxChecked = true;
+    } else {
+      this.storeCredentialsCheckboxChecked = false;
     }
   }
 }
